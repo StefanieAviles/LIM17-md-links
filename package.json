@@ -1,7 +1,32 @@
 {
   "name": "md-links",
   "version": "0.1.0",
+  "description": "Analiza archivos markdown y muestra una estadistica de sus links",
+  "main": "index.js",
+  "author": {
+    "name": "Stefanie Aviles Romero",
+    "email": "stefanie42019@gmail.com"
+  },
   "engines": {
     "node": ">=14.x"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/StefanieAviles/LIM17-md-links"
+  },
+  "dependencies": {
+    "chalk": "^5.0.1",
+    "jest": "^28.0.2"
+  },
+  "scripts": {
+    "htmlhint": "htmlhint dist/*.html ",
+    "eslint": "eslint --ext .js src/ test/",
+    "stylelint": "stylelint --aei src/**/*.css",
+    "pretest": "npm run htmlhint && npm run eslint && npm run stylelint",
+    "test": "jest --coverage"
+  },
+  "devDependencies": {
+    "eslint": "^8.14.0",
+    "htmlhint": "^1.1.4"
   }
 }
