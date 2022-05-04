@@ -1,5 +1,5 @@
 {
-  "name": "md-links",
+  "name": "sa-md-links",
   "version": "0.1.0",
   "description": "Analiza archivos markdown y muestra una estadistica de sus links",
   "main": "index.js",
@@ -24,6 +24,9 @@
     "stylelint": "stylelint --aei src/**/*.css",
     "pretest": "npm run htmlhint && npm run eslint && npm run stylelint",
     "test": "jest --coverage"
+  },
+  "bugs": {
+    "url": "https://github.com/StefanieAviles/LIM17-md-links/issues"
   },
   "devDependencies": {
     "eslint": "^8.14.0",
