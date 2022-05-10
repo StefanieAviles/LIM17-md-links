@@ -19,14 +19,15 @@
     "jest": "^28.0.2"
   },
   "scripts": {
-    "htmlhint": "htmlhint dist/*.html ",
-    "eslint": "eslint --ext .js src/ test/",
-    "stylelint": "stylelint --aei src/**/*.css",
-    "pretest": "npm run htmlhint && npm run eslint && npm run stylelint",
+    "eslint": "eslint --ext .js test/",
+    "pretest": "npm run eslint",
     "test": "jest --coverage"
   },
   "bugs": {
     "url": "https://github.com/StefanieAviles/LIM17-md-links/issues"
+  },
+  "bin": {
+    "md-links": "./cli.js"
   },
   "devDependencies": {
     "eslint": "^8.14.0",
