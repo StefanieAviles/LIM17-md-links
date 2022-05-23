@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+const chalk = require ('chalk');
 const {
   readPath, validateAbsolutePath, validatePath
 } = require('./cli.js');

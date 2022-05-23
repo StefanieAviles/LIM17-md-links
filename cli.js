@@ -3,36 +3,15 @@ const path = require("node:path");
 const fs = require("node:fs");
 // const mdLinks = require('./index.js');
 
-// "C:/Users/stef_/LIM17-md-links/test/"
+// "C:/Users/stef_/OneDrive/Desktop/LABORATORIA/LIM17-md-links/test/"
 /* let UserPath = process.argv[2];
 let UserOptions = process.argv[3]; */
 let fileContent = '';
 let results = [];
 let arrayResults = [];
 
-
-
 // Funcion que verifica si la ruta es valida
 const validatePath = (absolutePath) => (fs.existsSync(absolutePath)) ? true : false; 
-
-/* if (!UserPath){
-  console.log(chalk.red('*** DEBES INGRESAR UNA RUTA ***'));
-}
-else {
-  let absoluteUserPath = validateAbsolutePath(UserPath);
-  if(validatePath(absoluteUserPath)){
-    console.log('*** La ruta es valida ***');
-    resultsLinks = readPath(absoluteUserPath);
-    if(resultsLinks.length > 0){        
-      console.log('else'+resultsLinks);      
-    }
-    else{
-      console.log(chalk.red('--- No existen links en la ruta especificada ---'));  
-    }
-  } else{
-    console.log(chalk.red('--- La ruta ingresada no existe ---'));
-  }
-} */
 // Funcion que valida si la ruta es absoluta y si es relativa la convierte en absoluta
 function validateAbsolutePath(myDir){
   let absolutePath= '';
@@ -62,7 +41,7 @@ function isMarkdownFile (absoluteDir){
     return false;
   } 
 } 
-// Funcion que verifica si la ruta es un directorio o un archivo
+// Funcion que lee la ruta y devuelve un array con los links encontrados
 function readPath(absoluteDir) {
   let arrayLinks = [];
   let links = [];
@@ -84,7 +63,7 @@ function readPath(absoluteDir) {
     console.log(' +++ Esta ruta pertenece a un directorio +++');
     let arrayPaths = [];
     results = ReadDir(absoluteDir, arrayPaths);
-    console.log(results);
+    // console.log(results);
     if(results.length === 0){
       console.log(chalk.red('--- No existen archivos md en la ruta ingresada ---'));
     }
@@ -100,7 +79,8 @@ function readPath(absoluteDir) {
     }
   }
   return arrayLinks;
-}// Funcion que lee el directorio de una ruta especificada y devuelve un array de archivos md
+}
+// Funcion que lee el directorio de una ruta especificada y devuelve un array de archivos md
 function ReadDir(absoluteDir, arrayFiles) {
   // fs.readdirSync lee el directorio y me devuelve un array con los archivos dentro del directorio
   fs.readdirSync(absoluteDir).forEach(file => {
@@ -119,7 +99,6 @@ function ReadDir(absoluteDir, arrayFiles) {
 // Funcion que lee los archivos md
 function ReadFile(absoluteDir){
   let text = fs.readFileSync(absoluteDir, { encoding: "utf8", flag: "r" })
-  // console.log(text);
   return text;
 }
 // Funcion q extrae los links http y https que encuentre en el archivo md
@@ -139,5 +118,5 @@ function findlinks(content){
 }
 
 module.exports = {
-  ReadDir, toAbsolute, validateAbsolutePath, validatePath, readPath
+  ReadDir, toAbsolute, validateAbsolutePath, validatePath, readPath, isMarkdownFile, ReadFile, findlinks
 };
