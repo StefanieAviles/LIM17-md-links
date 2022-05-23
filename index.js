@@ -5,7 +5,6 @@ const {
 
 let UserPath = process.argv[2];
 let UserOptions = process.argv[3];
-mdLinks(UserPath);
 const mdLinks = (path, /* options */) => /*new Promise((resolve, reject) =>*/ {
   let resultsLinks= [];
   if (!path){
@@ -17,7 +16,7 @@ const mdLinks = (path, /* options */) => /*new Promise((resolve, reject) =>*/ {
       console.log('*** La ruta es valida ***');
       resultsLinks = readPath(absoluteUserPath);
       if(resultsLinks.length > 0){        
-        console.log('else'+resultsLinks);      
+        console.log(resultsLinks);      
       }
       else{
         console.log(chalk.red('--- No existen links en la ruta especificada ---'));  
@@ -27,6 +26,9 @@ const mdLinks = (path, /* options */) => /*new Promise((resolve, reject) =>*/ {
     }
   }
 }
+
+mdLinks(UserPath);
+
 module.exports = () => {
   mdLinks
 };
