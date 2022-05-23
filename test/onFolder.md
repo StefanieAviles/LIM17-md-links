@@ -13,3 +13,5 @@ interactuar con el sistema en sí, archivos, redes
 No dudes en consultar a tus compañeras, coaches y/o el [foro de la comunidad](http://community.laboratoria.la/c/js)
 
 * [1. Preámbulo](#1-preámbulo)
+
+este link no vale [NOVALE](https://linkdanado.com/es/)
