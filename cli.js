@@ -1,6 +1,7 @@
 const chalk = require ('chalk');
 const path = require("node:path");
 const fs = require("node:fs");
+const axios = require('axios');
 // const mdLinks = require('./index.js');
 
 // "C:/Users/stef_/OneDrive/Desktop/LABORATORIA/LIM17-md-links/test/"
@@ -18,19 +19,19 @@ function validateAbsolutePath(myDir){
   // path.isAbsolute me indica si la ruta es absoluta, devuelve true o false
   if ((path.isAbsolute(myDir))){ 
     absolutePath= myDir; 
-    console.log('*** Ingresaste una ruta absoluta ***');
+    //console.log('*** Ingresaste una ruta absoluta ***');
   }
   else{
-    console.log('*** Ingresaste una ruta relativa ***');
+    //console.log('*** Ingresaste una ruta relativa ***');
     absolutePath = toAbsolute(myDir);
-    console.log('Se convierte a absoluta');
+    //console.log('Se convierte a absoluta');
   }
   return absolutePath;
 }
 // Funcion que convierte una ruta absoluta en relativa
 function toAbsolute (dir){
   let completeDir = path.resolve(dir);
-  console.log('*** Ingresaste una ruta relativa ***');
+  //console.log('*** Ingresaste una ruta relativa ***');
   return completeDir;
 }
 //Funcion que devuelve true si el archivo es .md , caso contrario devuelve false
@@ -46,7 +47,7 @@ function readPath(absoluteDir) {
   let arrayLinks = [];
   let links = [];
   if(fs.lstatSync(absoluteDir).isFile()){
-    console.log('... Esta ruta pertenece a un archivo ...');
+    //console.log('... Esta ruta pertenece a un archivo ...');
     if (isMarkdownFile(absoluteDir)){
       fileContent = ReadFile(absoluteDir);  
       links = findlinks(fileContent);
@@ -60,7 +61,7 @@ function readPath(absoluteDir) {
       console.log(chalk.red('--- No existen archivos md en la ruta ingresada ---'));
     }     
   } else{
-    console.log(' +++ Esta ruta pertenece a un directorio +++');
+    //console.log(' +++ Esta ruta pertenece a un directorio +++');
     let arrayPaths = [];
     results = ReadDir(absoluteDir, arrayPaths);
     // console.log(results);
@@ -116,7 +117,49 @@ function findlinks(content){
   }
   return finalArray;
 }
+//Funcion que genera un arreglo de objetos
+function makeArrayObject(linksArray){
+  let arrayObjects=[];
+  for(i=0; i<linksArray.length; i++){
+    const indexPath = linksArray[i].indexOf('[');
+    const indexUrl = linksArray[i].indexOf(']');
+    const path = linksArray[i].substring(0,indexPath);
+    const text = linksArray[i].substring(indexPath+1,indexUrl);
+    const url = linksArray[i].substring(indexUrl+2,linksArray[i].length-1);
+    arrayObjects.push({
+      file: path,
+      text: text,
+      href: url,
+    });
+  }
+  return arrayObjects;
+}
+// Funcion que valida links
+function validateLinks(object){  
+  return axios(object.href)
+  .then((link)=> {
+    //console.log(object.href+link.status);
+    return {
+      file: object.file,
+      text: object.text,
+      href: object.href,
+      status:link.status,
+      ok: 'ok'
+    };
+  })
+  .catch((error)=> {
+    //console.log(object.href+error)
+    return {
+      file: object.file,
+      text: object.text,
+      href: object.href,
+      status:error.code,
+      ok: 'fail'
+    };    
+  })
+}
 
 module.exports = {
-  ReadDir, toAbsolute, validateAbsolutePath, validatePath, readPath, isMarkdownFile, ReadFile, findlinks
+  ReadDir, toAbsolute, validateAbsolutePath, validatePath, readPath, isMarkdownFile, ReadFile, findlinks, validateLinks,
+  makeArrayObject
 };
