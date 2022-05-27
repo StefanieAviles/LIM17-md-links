@@ -2,14 +2,11 @@ const chalk = require ('chalk');
 const path = require("node:path");
 const fs = require("node:fs");
 const axios = require('axios');
-// const mdLinks = require('./index.js');
 
 // "C:/Users/stef_/OneDrive/Desktop/LABORATORIA/LIM17-md-links/test/"
-/* let UserPath = process.argv[2];
-let UserOptions = process.argv[3]; */
+
 let fileContent = '';
 let results = [];
-let arrayResults = [];
 
 // Funcion que verifica si la ruta es valida
 const validatePath = (absolutePath) => (fs.existsSync(absolutePath)) ? true : false; 
@@ -64,13 +61,11 @@ function readPath(absoluteDir) {
     //console.log(' +++ Esta ruta pertenece a un directorio +++');
     let arrayPaths = [];
     results = ReadDir(absoluteDir, arrayPaths);
-    // console.log(results);
     if(results.length === 0){
       console.log(chalk.red('--- No existen archivos md en la ruta ingresada ---'));
     }
     else{
       results.forEach(element => {
-        //fileContent+=ReadFile(element)
         fileContent = ReadFile(element);
         links = findlinks(fileContent);
         links.forEach(link => {
@@ -135,31 +130,54 @@ function makeArrayObject(linksArray){
   return arrayObjects;
 }
 // Funcion que valida links
-function validateLinks(object){  
-  return axios(object.href)
-  .then((link)=> {
-    //console.log(object.href+link.status);
-    return {
-      file: object.file,
-      text: object.text,
-      href: object.href,
-      status:link.status,
-      ok: 'ok'
-    };
-  })
-  .catch((error)=> {
-    //console.log(object.href+error)
-    return {
-      file: object.file,
-      text: object.text,
-      href: object.href,
-      status:error.code,
-      ok: 'fail'
-    };    
-  })
+function validateLinks(arrayLinks){  
+  const arrayValidatedLinks = arrayLinks.map(object =>{
+    const validateInfo = axios(object.href)
+    .then((link)=> {
+      return {
+        ...object,
+        status:link.status,
+        ok: 'ok'
+      };
+    })
+    .catch((error)=> {
+      return {
+        ...object,
+        status:error.code,
+        ok: 'fail'
+      };    
+    })
+    return validateInfo
+  })  
+  return Promise.all(arrayValidatedLinks);
 }
-
+// Funcion que devuelve estadisticas
+function getStats (array){
+  let arrayLinks = array.map((item) => item.href);
+  let result = arrayLinks.filter((item, index) => {
+    return arrayLinks.indexOf(item) === index;
+  });
+  return result.length;
+}
+// Funcion que regresa estadisticas y validacion
+function getStatsAndValidate(array){
+  const stats=[]
+  arrayLinks = array.map((item) => item.href + '-' + item.ok);
+  let broken = 0;
+  result = arrayLinks.filter((item, index) => {
+    return arrayLinks.indexOf(item) === index;
+  });
+  stats.push(result.length);
+  result.forEach((element) => {
+    let value = element.substring(element.indexOf('-') + 1, element.length);
+    if (value === 'fail') {
+      broken++;
+    }
+  });
+  stats.push(broken);
+  return stats;
+}
 module.exports = {
   ReadDir, toAbsolute, validateAbsolutePath, validatePath, readPath, isMarkdownFile, ReadFile, findlinks, validateLinks,
-  makeArrayObject
+  makeArrayObject, getStats, getStatsAndValidate
 };

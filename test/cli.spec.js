@@ -1,8 +1,26 @@
-//const mdLinks = require('..');
 const {
-  ReadFile, toAbsolute, validateAbsolutePath, validatePath, isMarkdownFile, readPath, findlinks
+  ReadFile, toAbsolute, validateAbsolutePath, validatePath, isMarkdownFile, readPath, findlinks,
+  makeArrayObject, validateLinks, getStats, getStatsAndValidate
 } = require('../cli.js');
-
+// -------------------------------------------AARAYS DE PRUEBA-----------------------------------------------------
+const arrayLinks = ['C:/Users/stef_/OneDrive/Desktop/LABORATORIA/LIM17-md-links/test/[SomeText](https://www.google.com)'];
+const arrayObjects = [
+  {
+    file: 'C:/Users/stef_/OneDrive/Desktop/LABORATORIA/LIM17-md-links/test/onFolder.md',
+    text: 'Markdown',
+    href: 'https://es.wikipedia.org/wiki/Markdown'
+  },
+  {
+    file: 'C:/Users/stef_/OneDrive/Desktop/LABORATORIA/LIM17-md-links/test/onFolder.md',
+    text: 'NOVALE',
+    href: 'https://linkdanado.com/es/'
+  },
+  {
+    file: 'C:/Users/stef_/OneDrive/Desktop/LABORATORIA/LIM17-md-links/test/onFolder.md',
+    text: 'ERROR 404',
+    href: 'https://www.google.com/MD'
+  }
+]
 
 // const validatePath = (absolutePath) => (fs.existsSync(absolutePath)) ? true : false; 
 describe('Funcion validatePath', () => {
@@ -45,6 +63,12 @@ describe('Funcion readPath', () => {
   it('Deberia devolver un arreglo si se envia una ruta de archivo', () => {
     expect(typeof(readPath('C:/Users/stef_/OneDrive/Desktop/LABORATORIA/LIM17-md-links/test/onFolder.md'))).toBe('object');
   });
+  it('Deberia devolver un arreglo vacio si no hay archivos md en esa ruta de archivo', () => {
+    expect(readPath('C:/Users/stef_/OneDrive/Desktop/LABORATORIA/LIM17-md-links/test/some.txt')).toStrictEqual([]);
+  });
+  it('Deberia devolver un arreglo vacio si no hay archivos md en ese directorio', () => {
+    expect(readPath('C:/Users/stef_/OneDrive/Desktop/LABORATORIA/LIM17-md-links/Diagram')).toStrictEqual([]);
+  });
 });
 // ReadFile(absoluteDir)
 describe('Funcion ReadFile', () => {
@@ -58,11 +82,28 @@ describe('Funcion findlinks', () => {
     expect(typeof(findlinks('C:/Users/stef_/OneDrive/Desktop/LABORATORIA/LIM17-md-links/test/onFolder.md'))).toBe('object');
   });
 });
-/* 
-// function ReadDir(absoluteDir)
-describe('Funcion ReadDir', () => {
-  it('Deberia devolver un arreglo', () => {
-    expect(typeof(ReadDir('C:/Users/stef_/LIM17-md-links/test/', []))).toBe('object');
+// makeArrayObject(linksArray)
+describe('Funcion makeArrayObject', () => {
+  it('Deberia devolver un arreglo de objetos', () => {
+    expect(typeof(makeArrayObject(arrayLinks))).toBe('object');
   });
 });
-*/
+//validateLinks(arrayLinks)
+describe('Funcion validateLinks', () => {
+  it('Deberia devolver un arreglo de objetos', () => {
+    expect(typeof(validateLinks(arrayObjects))).toBe('object');
+  });
+});
+// getStats (array)
+describe('Funcion getStats', () => {
+  it('Deberia devolver el numero 3 que es la cantidad de links unicos', () => {
+    expect((getStats(arrayObjects))).toStrictEqual(3);
+  });
+});
+// getStatsAndValidate(array)
+describe('Funcion getStatsAndValidate', () => {
+  it('Deberia devolver un arreglo con 3 como 1er elemento(links unicos) y 0 como 2do elemento(links rotos)', () => {
+    expect((getStatsAndValidate(arrayObjects))).toStrictEqual([3,0]);
+  });
+});
+
