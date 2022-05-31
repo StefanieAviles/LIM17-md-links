@@ -10,12 +10,12 @@ MDLINKS es una librería que lee y analiza archivos en formato [Markdown](https:
 ## 2. Instalacion
 Para su instalación se debe ejecutar 
 
-`npm install sa-md-links`
+`npm install stavil-md-links`
 
 ## 3. Uso
 Para acceder a la librería se debe importar de la siguiente manera:
 
-`const mdLinks = require ("sa-md-links");`
+`const mdLinks = require ("stavil-md-links");`
 
 
 ## 4. Modo de uso

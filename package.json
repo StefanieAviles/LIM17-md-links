@@ -1,7 +1,7 @@
 {
-  "name": "sa-md-links",
+  "name": "stavil-md-links",
   "version": "1.1.0",
-  "description": "Analiza archivos markdown y muestra una estadistica de sus links",
+  "description": "Libreria que analiza links contenidos en archivos markdown y muestra una estadistica de los mismos",
   "main": "index.js",
   "author": {
     "name": "Stefanie Aviles Romero",
