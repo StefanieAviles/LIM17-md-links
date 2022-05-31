@@ -2,7 +2,7 @@ const chalk = require ('chalk');
 const path = require("node:path");
 const fs = require("node:fs");
 const axios = require('axios');
-
+// ------------------LINK DE PRUEBA-----------------------------------
 // "C:/Users/stef_/OneDrive/Desktop/LABORATORIA/LIM17-md-links/test/"
 
 let fileContent = '';
@@ -16,19 +16,15 @@ function validateAbsolutePath(myDir){
   // path.isAbsolute me indica si la ruta es absoluta, devuelve true o false
   if ((path.isAbsolute(myDir))){ 
     absolutePath= myDir; 
-    //console.log('*** Ingresaste una ruta absoluta ***');
   }
   else{
-    //console.log('*** Ingresaste una ruta relativa ***');
     absolutePath = toAbsolute(myDir);
-    //console.log('Se convierte a absoluta');
   }
   return absolutePath;
 }
 // Funcion que convierte una ruta absoluta en relativa
 function toAbsolute (dir){
   let completeDir = path.resolve(dir);
-  //console.log('*** Ingresaste una ruta relativa ***');
   return completeDir;
 }
 //Funcion que devuelve true si el archivo es .md , caso contrario devuelve false
@@ -44,7 +40,7 @@ function readPath(absoluteDir) {
   let arrayLinks = [];
   let links = [];
   if(fs.lstatSync(absoluteDir).isFile()){
-    //console.log('... Esta ruta pertenece a un archivo ...');
+    //('... Esta ruta pertenece a un archivo ...');
     if (isMarkdownFile(absoluteDir)){
       fileContent = ReadFile(absoluteDir);  
       links = findlinks(fileContent);
@@ -58,7 +54,7 @@ function readPath(absoluteDir) {
       console.log(chalk.red('--- No existen archivos md en la ruta ingresada ---'));
     }     
   } else{
-    //console.log(' +++ Esta ruta pertenece a un directorio +++');
+    //(' +++ Esta ruta pertenece a un directorio +++');
     let arrayPaths = [];
     results = ReadDir(absoluteDir, arrayPaths);
     if(results.length === 0){
@@ -123,7 +119,7 @@ function makeArrayObject(linksArray){
     const url = linksArray[i].substring(indexUrl+2,linksArray[i].length-1);
     arrayObjects.push({
       file: path,
-      text: text,
+      text: text.substring(0,50), // Truncado a 50 caracteres
       href: url,
     });
   }
@@ -151,7 +147,7 @@ function validateLinks(arrayLinks){
   })  
   return Promise.all(arrayValidatedLinks);
 }
-// Funcion que devuelve estadisticas
+// Funcion que devuelve estadisticas de los links encontrados
 function getStats (array){
   let arrayLinks = array.map((item) => item.href);
   let result = arrayLinks.filter((item, index) => {
@@ -159,7 +155,7 @@ function getStats (array){
   });
   return result.length;
 }
-// Funcion que regresa estadisticas y validacion
+// Funcion que regresa estadisticas y validacion de los links encontrados
 function getStatsAndValidate(array){
   const stats=[]
   arrayLinks = array.map((item) => item.href + '-' + item.ok);

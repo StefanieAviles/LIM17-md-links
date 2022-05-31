@@ -14,5 +14,5 @@ No dudes en consultar a tus compañeras, coaches y/o el [foro de la comunidad](h
 
 * [1. Preámbulo](#1-preámbulo)
 
-este link no vale [NOVALE](https://linkdanado.com/es/)
+este link no vale [NOVALE78901234567890123456789012345678901234567890ppp](https://linkdanado.com/es/)
 link roto [ERROR 404](https://www.google.com/MD)

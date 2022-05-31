@@ -7,6 +7,7 @@
     "name": "Stefanie Aviles Romero",
     "email": "stefanie42019@gmail.com"
   },
+  "license": "ISC",
   "engines": {
     "node": ">=14.x"
   },

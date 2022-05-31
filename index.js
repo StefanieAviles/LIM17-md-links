@@ -7,10 +7,7 @@ const {
 const axios = require('axios');
 
 const UserPath = process.argv[2];
-//const UserPath = UPath.replaceAll('\\','/');
-//console.log(UserPath);
 const UserOptions = process.argv[3];
-
 
 //Funcion que crea el objeto options segun las opciones ingresadas por el usuario
 function objectOptions(optionUser){
@@ -46,7 +43,7 @@ function objectOptions(optionUser){
   }
 }
 // Funcion que retorna una promesa que resuelve un arreglo con los links validados
-function mdLinks(path, options) /*new Promise((resolve, reject) =>*/ {
+function mdLinks(path, options) {
   return new Promise((resolve, reject) => {
     let resultsLinks= [];
     if (!path){
@@ -55,10 +52,8 @@ function mdLinks(path, options) /*new Promise((resolve, reject) =>*/ {
     else {
       const absoluteUserPath = validateAbsolutePath(path);
       if(validatePath(absoluteUserPath)){
-      // console.log('*** La ruta es valida ***');
         resultsLinks = readPath(absoluteUserPath);
-        if(resultsLinks.length > 0){        
-        // console.log(resultsLinks); 
+        if(resultsLinks.length > 0){ 
           const arrayObjects = makeArrayObject(resultsLinks);
           if(options.validate === true){
             validateLinks(arrayObjects).then((response) =>{
